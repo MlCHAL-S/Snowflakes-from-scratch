@@ -10,8 +10,9 @@ var active: bool = true
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	var sc = lerp(4,9,randf())
-	scale = Vector2(sc, sc)#lerp(4,9,randf())
+	var temp_scale = lerp(0.5,1.5,randf())
+	scale = Vector2(temp_scale, temp_scale)#lerp(4,9,randf())
+	$Sprite.texture = load("res://assets/images/snowflake"+str(1+randi()%4)+".png")
 	
 	$AnimationPlayer.play("set_default")
 
@@ -22,6 +23,9 @@ func _physics_process(delta):
 	# snowflake's movement
 	rotation += rotation_speed * delta
 	position.y += speed * delta
+	
+	if position.y >= 1000:
+		queue_free()
 
 
 func _on_Area2D_input_event(viewport, event, shape_idx):
